@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+This html file is only used to extract the hashed access token parameter. Nothing else!!
+It will then submit an auto generated form with the access token as a standard parameter
+so it can be read by the processing servlet at /nzqa/load-user-home.html    
+--> 
+<head>
+<meta charset="UTF-8">
+<title>Initialize</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+// This function extracts the Access Token from the hashed parameters and then submits an 
+// auto-geneted form.
+$(function() {
+	var interactionCode = null;
+	var pageContext = window.location.protocol + "//" + window.location.host;
+	
+	var params = new URLSearchParams(window.location.search);
+	
+	// If hashed parameters have been returned
+	if (params.has('interaction_code')) {
+		console.log("Found interaction code!!!");
+		interactionCode = params.get('interaction_code');
+		//console.log("access_token=" + accessToken)
+	}
+
+	var method = "post";
+	var url = pageContext + "/oiedemo/landing.html";
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", url);
+	
+	if (interactionCode != null) {
+		var hiddenField = document.createElement("input");
+	    hiddenField.setAttribute("type", "hidden");
+	    hiddenField.setAttribute("name", "interaction_code");
+	    hiddenField.setAttribute("value", interactionCode);
+	    form.appendChild(hiddenField);
+	}
+	
+	document.body.appendChild(form);
+	form.submit();
+});
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>OIE demo</title>
+		<link rel="stylesheet" href="css/logincustom.css">
+	</head>
+	<body>
+		<script>
+	      	function validateForm() {      		
+	      		
+	      	}
+	     </script>
+		<div class="formcontainer">
+	      <div class="formsubcontainer">
+	          <img src="images/rsz_acmelogo.png" alt="CS logo" width="120" class="logo">
+	          <h3 class="verifycode">Verify Code</h3>
+	          <h4 class="emailormobile">Please enter the code below</h4>
+	          <form action="/oiedemo/verifyauthenticator" onsubmit="return validateForm()" method="POST" class="userform">    
+	           	<input type="text" id="otp" name="otp" class="username">
+	            <br>	            
+	            <input type="submit" value="Verify" class="submit">
+	        </form> 
+	      </div>
+	    </div>
+	</body>
+</html>

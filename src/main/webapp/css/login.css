@@ -1,0 +1,52 @@
+
+#okta-sign-in.auth-container .button-primary, #okta-sign-in.auth-container .button-primary:hover, #okta-sign-in.auth-container .button-primary:focus, #okta-sign-in.auth-container .button, #okta-sign-in.auth-container .button:hover {
+    background: linear-gradient(rgb(255,48,0),rgb(255,48,0));
+    color: white;
+}
+
+
+#okta-sign-in.auth-container .button.button-primary.link-button-disabled, #okta-sign-in.auth-container .button.button-primary.link-button-disabled:hover, #okta-sign-in.auth-container .button.button-primary.link-button-disabled:focus {
+	background: linear-gradient(rgb(255,48,0),rgb(255,48,0));
+}
+
+
+#okta-sign-in.auth-container .button.btn-disabled, #okta-sign-in.auth-container .button.btn-disabled:hover, #okta-sign-in.auth-container .button.btn-disabled:focus {
+	background: linear-gradient(rgb(255,48,0),rgb(255,48,0));
+}
+
+
+#okta-sign-in.auth-container .button.inline-totp-verify.link-button, #okta-sign-in.auth-container .button.inline-totp-verify.link-button:focus {
+	background: linear-gradient(rgb(255,48,0),rgb(255,48,0));
+}
+
+#okta-sign-in.auth-container .button.inline-totp-verify.link-button.link-button-disabled:focus, #okta-sign-in.auth-container .button.inline-totp-verify.link-button.link-button-disabled:hover {
+	color: #aaa;
+}
+
+#okta-sign-in.auth-container .button.sms-request-button.btn-disabled, #okta-sign-in.auth-container .button.sms-request-button.btn-disabled:focus, #okta-sign-in.auth-container .button.sms-request-button.btn-disabled:hover {
+	color: #aaa;
+}
+
+#okta-sign-in.auth-container .button.button-primary.btn-disabled, #okta-sign-in.auth-container .button.button-primary.btn-disabled:focus, #okta-sign-in.auth-container .button.button-primary.btn-disabled:hover {
+	color: #aaa;
+}
+
+#okta-sign-in .okta-form-title.o-form-head {
+	color: #ff3000;
+}
+
+
+#okta-sign-in .registration-container .registration-link {
+    margin-left: 10px;
+    color: #ff3000;
+}
+
+#okta-sign-in.auth-container .okta-form-label {
+    font-weight: 600;
+    color: #ff3000;
+}
+
+
+
+
+

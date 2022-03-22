@@ -1,0 +1,177 @@
+html {
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background-color: #f1f2ee;
+}
+
+.formcontainer {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+  	justify-content: center;
+}
+
+.formsubcontainer {
+	background-color: #f1f2ee;
+	width: 400px;
+	height: 550px;
+	padding: 20px;
+}
+
+.formsecurityquestions {
+	background-color: #f1f2ee;
+	width: 500px;
+	height: 550px;
+	padding: 20px;
+}
+
+.userform {
+	margin-top: 30px;
+}
+
+.username {
+	margin-left: 10px;
+	margin-bottom: 20px;
+	padding: 5px;
+	width: 250px;
+}
+
+.password {
+	border: 1px solid silver;
+	display: inline-block;
+	font-size: 16px;
+	margin-bottom: 10px;
+	margin-left: 21%;
+	padding: 3px;
+	width: 50%;
+}
+
+.confirmpassword {
+	border: 1px solid silver;
+	display: inline-block;
+	font-size: 16px;
+	margin-bottom: 10px;
+	margin-left: 5%;
+	padding: 3px;
+	width: 50%;
+}
+
+.submit {
+	border: none;
+	background: #ff3000;
+	color: #fff;
+	font-style: normal;
+	transition: all .2s;
+	padding-left: 50px;
+	cursor: pointer;
+	margin-left: 17%;
+	padding-right: 50px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-radius: 4px;
+	font-size: 15px;
+}
+
+.idpbuttons {
+	border: none;
+	background: #ff3000;
+	color: #fff;
+	font-style: normal;
+	transition: all .2s;
+	padding-left: 50px;
+	cursor: pointer;
+	padding-right: 50px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-radius: 4px;
+	font-size: 15px;
+	width: 70%
+}
+
+.logo {
+	margin-left: 20%;
+}
+
+.emailsenttext {
+	margin-top: 20px;
+}
+
+.securityanswer {
+	margin-left: 18px;
+	margin-bottom: 20px;
+	padding: 5px;
+	width: 250px;
+}
+
+.newtohumm {
+	margin-left: 15%;
+}
+
+
+.signup {
+	color: #ff3000;
+}
+
+.getstarted {
+	margin-left: 15%;
+}
+
+.reglabel {
+	margin-left: 8%;
+}
+
+.enrollphone {
+	margin-left: 10%;
+}
+
+.enrollphoneexample {
+	margin-left: 10%;
+}
+
+.verifycode {
+	margin-left: 22%;
+}
+
+.setuppassword {
+	margin-left: 19%;
+}
+
+.perfect {
+	margin-left: 30%;
+}
+
+.alreadyhaveaccount {
+	margin-left: 6%;
+}
+
+.emailormobile {
+	margin-left: 15%;
+	font-weight: 300;
+}
+
+.pickpassword {
+	margin-left: 18%;
+	font-weight: 300;
+}
+
+.setemail {
+	margin-left: 15%;
+	font-weight: 300;
+}
+
+.entermobile {
+	font-weight: 300;
+}
+
+.idps {
+	margin-left: 15%;
+	color: #ff3000;
+}

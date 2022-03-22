@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>OIE demo</title>
+		<link rel="stylesheet" href="css/logincustom.css">
+	</head>
+	<body>
+		<script>
+	      	function validateForm() {      		
+	      		
+	      	}
+	     </script>
+		<div class="formcontainer">
+	      <div class="formsubcontainer">
+	          <img src="images/rsz_acmelogo.png" alt="CS logo" width="120" class="logo">
+	          <h3 class="enrollphone">Enroll Phone Authenticator</h3>
+	          <h4>Format: (+) {country code} {area code} {number}</h4>
+	          <h4 class="enrollphoneexample">For e.g. +61469013668 (AU)</h4>
+	          <form action="/oiedemo/verifyauthenticatorenrollment" onsubmit="return validateForm()" method="POST" class="userform">    
+	           	<input type="text" id="phonenumber" name="phonenumber" class="username">
+	            <br>	            
+	            <input type="submit" value="Enroll" class="submit">
+	        </form> 
+	      </div>
+	    </div>
+	</body>
+</html>
