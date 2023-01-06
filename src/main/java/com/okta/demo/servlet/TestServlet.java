@@ -36,17 +36,7 @@ public class TestServlet extends HttpServlet {
     }
     
     public void init() {
-    	//LoadProperties.loadProperties(getClass().getResourceAsStream(PROP_FILE));
-    	if(!PropertiesUtil.propsLoaded) {
-	    	String absolutePath = this.getClass().getClassLoader().getResource("").getPath();
-	    	try {
-				FileInputStream fis = new FileInputStream(absolutePath + PROP_FILE);
-				PropertiesUtil.loadProperties(fis);
-			} catch (FileNotFoundException e) {
-				logger.fatal("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
-				throw new InternalException("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
-			}
-    	}
+    	
     }
 
 	/**
@@ -56,6 +46,24 @@ public class TestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		System.out.println("In TestServlet");
+		
+		
+		//LoadProperties.loadProperties(getClass().getResourceAsStream(PROP_FILE));
+    	if(!PropertiesUtil.propsLoaded) {
+	    	String absolutePath = this.getClass().getClassLoader().getResource("").getPath();
+	    	try {
+	    		String host = request.getHeader("host");
+	    		String demoName = host.substring(0, host.indexOf("."));
+	    		System.out.println("Demo Name: " + demoName);
+	    		PropertiesUtil.demo_name = demoName;
+				FileInputStream fis = new FileInputStream(absolutePath + PROP_FILE);
+				PropertiesUtil.loadProperties(fis);
+			} catch (FileNotFoundException e) {
+				logger.fatal("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
+				throw new InternalException("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
+			}
+    	}
+    	
 		
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}

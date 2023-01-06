@@ -35,9 +35,9 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	    
-	    <script src="https://global.oktacdn.com/okta-signin-widget/5.13.0/js/okta-sign-in.min.js" type="text/javascript"></script>
+	    <script src="https://global.oktacdn.com/okta-signin-widget/7.1.3/js/okta-sign-in.min.js" type="text/javascript"></script>
 	
-	    <link href="https://global.oktacdn.com/okta-signin-widget/5.13.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+	    <link href="https://global.oktacdn.com/okta-signin-widget/7.1.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 	    
 	    <link rel="stylesheet" href="css/login.css">
   </head>

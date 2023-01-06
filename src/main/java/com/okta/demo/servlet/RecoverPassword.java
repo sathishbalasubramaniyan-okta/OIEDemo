@@ -70,6 +70,8 @@ public class RecoverPassword extends HttpServlet {
 		String username = request.getParameter("email");
 		HttpSession session = request.getSession();
 		
+		System.out.println("In RecoverPassword servlet, email: " + username);
+		
 		IDXAuthenticationWrapper idxAuthenticationWrapper = (IDXAuthenticationWrapper)session.getAttribute("idxAuthenticationWrapper");
 		ProceedContext proceedContext = (ProceedContext)session.getAttribute("proceedContext");
 		
@@ -78,7 +80,9 @@ public class RecoverPassword extends HttpServlet {
 		
 		AuthenticationStatus authenticationStatus = authenticationResponse.getAuthenticationStatus();
 		
-		if (authenticationStatus == AuthenticationStatus.AWAITING_AUTHENTICATOR_SELECTION) {
+		System.out.println("authentication status in RecoverPassword: " + authenticationStatus);
+		
+		if (authenticationStatus == AuthenticationStatus.AWAITING_AUTHENTICATOR_SELECTION || authenticationStatus == AuthenticationStatus.AWAITING_AUTHENTICATOR_VERIFICATION_DATA) {
 			System.out.println("Authentication Status is AWAITING_AUTHENTICATOR_SELECTION");
 			List<Authenticator> authenticators = authenticationResponse.getAuthenticators();
 			request.getSession().setAttribute("proceedContext", authenticationResponse.getProceedContext());

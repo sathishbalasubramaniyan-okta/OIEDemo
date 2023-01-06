@@ -35,7 +35,7 @@
 	if (request.getSession().getAttribute("accessToken") != null) {
 		accessToken = (String) request.getSession().getAttribute("accessToken");
 	} else {
-		response.sendRedirect("http://localhost:8080/oiedemo/logincustom.html");
+		response.sendRedirect("http://sathish-demo-ocis.localhost:8080/oiedemo/logincustom.html");
 	}
 	if (request.getSession().getAttribute("idToken") != null) {
 		idToken = (String) request.getSession().getAttribute("idToken");

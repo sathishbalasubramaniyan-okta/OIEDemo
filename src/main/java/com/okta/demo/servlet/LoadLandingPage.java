@@ -78,7 +78,7 @@ public class LoadLandingPage extends HttpServlet {
 		String interactionCode = request.getParameter("interaction_code");
 		
 		AuthenticationResponse authenticationResponse =
-				idxAuthenticationWrapper.fetchTokenWithInteractionCode("https://" + PropertiesUtil.okta_org + "/oauth2/" + PropertiesUtil.server_id, proceedContext, interactionCode);
+				idxAuthenticationWrapper.fetchTokenWithInteractionCode(proceedContext, interactionCode);
 		
 		
 		List<String> errors = authenticationResponse.getErrors();

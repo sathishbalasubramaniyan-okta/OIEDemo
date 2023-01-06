@@ -4,10 +4,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+
+import javax.net.ssl.HttpsURLConnection;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.okta.demo.exception.CommunicationException;
 import com.okta.demo.exception.ConfigurationException;
 
 public class PropertiesUtil {
@@ -23,6 +36,8 @@ public class PropertiesUtil {
 	public static String client_id_widget = "";
 	public static String redirect_url = "";
 	public static String redirect_url_widget = "";
+	public static String post_logout_redirect_url = "";
+	public static String post_logout_redirect_url_widget = "";
 	public static String server_id = "";
 	public static String linked_obj_associate = "";
 	public static String google_client_id = "";
@@ -36,6 +51,13 @@ public class PropertiesUtil {
 	public static String background1 = "";
 	public static String background2 = "";
 	public static boolean propsLoaded = false;
+	//Demo platform properties
+	public static String demo_api_client_id = "";
+	public static String demo_api_client_secret = "";
+	public static String demo_api_token_url = "";
+	public static String demo_api_audience = "";
+	public static String base_uri = "";
+	public static String demo_name = "";
 
 	public static void loadProperties(InputStream propStream) throws ConfigurationException {
 
@@ -246,7 +268,112 @@ public class PropertiesUtil {
 				else {
 					background2 = props.getProperty("background2");
 				}
-
+				
+				if (props.getProperty("demo_api_client_id") == null || props.getProperty("demo_api_client_id").length() == 0) {
+					logger.fatal("Okta API property file missing value for demo_api_client_id");
+					throw new ConfigurationException("Okta API property file missing value for demo_api_client_id");
+				}
+				else {
+					demo_api_client_id = props.getProperty("demo_api_client_id");
+				}
+				
+				if (props.getProperty("demo_api_client_secret") == null || props.getProperty("demo_api_client_secret").length() == 0) {
+					logger.fatal("Okta API property file missing value for demo_api_client_secret");
+					throw new ConfigurationException("Okta API property file missing value for demo_api_client_secret");
+				}
+				else {
+					demo_api_client_secret = props.getProperty("demo_api_client_secret");
+				}
+				
+				if (props.getProperty("demo_api_token_url") == null || props.getProperty("demo_api_token_url").length() == 0) {
+					logger.fatal("Okta API property file missing value for demo_api_token_url");
+					throw new ConfigurationException("Okta API property file missing value for demo_api_token_url");
+				}
+				else {
+					demo_api_token_url = props.getProperty("demo_api_token_url");
+				}
+				
+				if (props.getProperty("demo_api_audience") == null || props.getProperty("demo_api_audience").length() == 0) {
+					logger.fatal("Okta API property file missing value for demo_api_audience");
+					throw new ConfigurationException("Okta API property file missing value for demo_api_audience");
+				}
+				else {
+					demo_api_audience = props.getProperty("demo_api_audience");
+				}
+				
+				if (props.getProperty("base_uri") == null || props.getProperty("base_uri").length() == 0) {
+					logger.fatal("Okta API property file missing value for base_uri");
+					throw new ConfigurationException("Okta API property file missing value for base_uri");
+				}
+				else {
+					base_uri = props.getProperty("base_uri");
+				}
+				
+				StringBuilder encodedUrl = new StringBuilder("");
+				encodedUrl.append("grant_type=client_credentials");
+				encodedUrl.append("&client_id=" + demo_api_client_id);
+				encodedUrl.append("&client_secret=" + demo_api_client_secret);
+				encodedUrl.append("&scope=bootstrap");
+				encodedUrl.append("&audience=" + demo_api_audience);
+				URL obj = new URL(demo_api_token_url);
+				HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+				con.setRequestMethod("POST");
+				con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				con.setDoOutput(true);
+				final BufferedWriter bfw = new BufferedWriter(new OutputStreamWriter(con.getOutputStream()));
+				bfw.write(encodedUrl.toString());
+				bfw.flush();
+				bfw.close();
+				int responseCode = con.getResponseCode();
+				logger.debug("Response Code from demo api token end-point: " + responseCode);
+				if (responseCode != 200) {
+					logger.fatal("Response code when getting access token from demo api token end-point: " + responseCode);
+					throw new CommunicationException("Response code when getting access token from demo api token end-point: " + responseCode);
+				}
+				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				String inputLine;
+				StringBuffer getResponse = new StringBuffer();
+				while ((inputLine = in.readLine()) != null) {
+					getResponse.append(inputLine);
+				}
+				in.close();
+				
+				logger.debug("Response from demo api token end-point="+getResponse.toString());
+				JSONObject jObj = new JSONObject(getResponse.toString());
+				String accessToken = jObj.getString("access_token");
+				jObj = JwtParser.parseJWT(accessToken);
+				String applicationId = jObj.getString("applicationId");
+				
+				String bootstrapUrl = "https://api.demo.okta.com/bootstrap/" + applicationId + "/" + demo_name;
+				obj = new URL(bootstrapUrl);
+				con = (HttpsURLConnection) obj.openConnection();
+				con.setRequestMethod("GET");
+				con.setRequestProperty("Authorization", "Bearer " + accessToken);
+				con.setDoOutput(true);
+				responseCode = con.getResponseCode();
+				if (responseCode != 200) {
+					logger.fatal("Response code when calling bootstrap end-point: " + responseCode);
+				}
+				
+				// Extract the response
+				in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				getResponse = new StringBuffer();
+				while ((inputLine = in.readLine()) != null) {
+					getResponse.append(inputLine);
+				}
+				in.close();
+				
+				logger.debug("Response from bootstrap end-point = "+getResponse.toString());
+				jObj = new JSONObject(getResponse.toString());
+				client_id = jObj.getJSONObject("oidc_configuration").getString("client_id");
+				client_secret = jObj.getJSONObject("oidc_configuration").getString("client_secret");
+				String issuer = jObj.getJSONObject("oidc_configuration").getString("issuer");
+				okta_org = issuer.substring(8, issuer.indexOf("/oauth2/default"));
+				System.out.println("okta org from bootstrap API: " + okta_org);
+				redirect_url = "http://" + demo_name + "." + base_uri + "/oiedemo/initialize.html";
+				redirect_url_widget = "http://" + demo_name + "." + base_uri + "/oiedemo/initializewidget.jsp";
+				post_logout_redirect_url = "http://" + demo_name + "." + base_uri + "/oiedemo/logincustom.html";
+				post_logout_redirect_url_widget = "http://" + demo_name + "." + base_uri + "/oiedemo";
 				propsLoaded = true;
 				logger.info("Properties successfully loaded");
 				logger.debug("***** Loaded Properties *****");
@@ -255,7 +382,12 @@ public class PropertiesUtil {
 				logger.debug("customer_name=" + customer_name);					
 				logger.debug("customer_web=" + customer_web);					
 				logger.debug("client_id=" + client_id);			
-				logger.debug("client_secret=" + client_secret);			
+				logger.debug("client_secret=" + client_secret);	
+				logger.debug("client_id_widget=" + client_id_widget);
+				logger.debug("redirect_url=" + redirect_url);	
+				logger.debug("redirect_url_widget=" + redirect_url_widget);	
+				logger.debug("post_logout_redirect_url=" + post_logout_redirect_url);	
+				logger.debug("post_logout_redirect_url_widget=" + post_logout_redirect_url_widget);	
 				logger.debug("server_id=" + server_id);			
 				logger.debug("google_client_id=" + google_client_id);
 				logger.debug("google_client_secret=" + google_client_secret);
@@ -264,7 +396,13 @@ public class PropertiesUtil {
 				logger.debug("microsoft_idp=" + microsoft_idp);		
 				logger.debug("logo=" + logo);					
 				logger.debug("banner=" + banner);					
-				logger.debug("background1=" + background1);					
+				logger.debug("background1=" + background1);	
+				logger.debug("background2=" + background2);	
+				logger.debug("demo_api_client_id=" + demo_api_client_id);	
+				logger.debug("demo_api_client_secret=" + demo_api_client_secret);	
+				logger.debug("demo_api_token_url=" + demo_api_token_url);	
+				logger.debug("demo_api_audience=" + demo_api_audience);	
+				logger.debug("base_uri=" + base_uri);	
 				logger.debug("*****************************");
 			} 
 			catch (IOException e) {

@@ -77,9 +77,9 @@ public class Logout extends HttpServlet {
 		}
 		
 		if ((widgetUsed != null) && (widgetUsed.equals("true"))) {
-			redirectURL = "https://" + PropertiesUtil.okta_org + "/oauth2/" + PropertiesUtil.server_id + "/v1/logout?id_token_hint=" + idToken + "&post_logout_redirect_uri=http://localhost:8080/oiedemo";
+			redirectURL = "https://" + PropertiesUtil.okta_org + "/oauth2/" + PropertiesUtil.server_id + "/v1/logout?id_token_hint=" + idToken + "&post_logout_redirect_uri=" + PropertiesUtil.post_logout_redirect_url_widget;
 		} else {
-			redirectURL = "https://" + PropertiesUtil.okta_org + "/oauth2/" + PropertiesUtil.server_id + "/v1/logout?id_token_hint=" + idToken + "&post_logout_redirect_uri=http://localhost:8080/oiedemo/logincustom.html";
+			redirectURL = "https://" + PropertiesUtil.okta_org + "/oauth2/" + PropertiesUtil.server_id + "/v1/logout?id_token_hint=" + idToken + "&post_logout_redirect_uri=" + PropertiesUtil.post_logout_redirect_url;
 		}
 		
 		

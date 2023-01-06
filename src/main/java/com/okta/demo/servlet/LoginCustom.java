@@ -56,16 +56,7 @@ public class LoginCustom extends HttpServlet {
     
     public void init() {
     	//LoadProperties.loadProperties(getClass().getResourceAsStream(PROP_FILE));
-    	if(!PropertiesUtil.propsLoaded) {
-	    	String absolutePath = this.getClass().getClassLoader().getResource("").getPath();
-	    	try {
-				FileInputStream fis = new FileInputStream(absolutePath + PROP_FILE);
-				PropertiesUtil.loadProperties(fis);
-			} catch (FileNotFoundException e) {
-				logger.fatal("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
-				throw new InternalException("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
-			}
-    	}
+    	
     }
 
 	/**
@@ -84,6 +75,20 @@ public class LoginCustom extends HttpServlet {
 		
 		
 		System.out.println("In LoginCustom servlet");
+		if(!PropertiesUtil.propsLoaded) {
+	    	String absolutePath = this.getClass().getClassLoader().getResource("").getPath();
+	    	try {
+	    		String host = request.getHeader("host");
+	    		String demoName = host.substring(0, host.indexOf("."));
+	    		System.out.println("Demo Name: " + demoName);
+	    		PropertiesUtil.demo_name = demoName;
+				FileInputStream fis = new FileInputStream(absolutePath + PROP_FILE);
+				PropertiesUtil.loadProperties(fis);
+			} catch (FileNotFoundException e) {
+				logger.fatal("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
+				throw new InternalException("Failed to load property file: " + PROP_FILE + " cause: " + e.getMessage());
+			}
+    	}
 		
 		IDXAuthenticationWrapper idxAuthenticationWrapper = new IDXAuthenticationWrapper("https://" + PropertiesUtil.okta_org + "/oauth2/" + PropertiesUtil.server_id,PropertiesUtil.client_id,PropertiesUtil.client_secret,scopes,PropertiesUtil.redirect_url);
 		
