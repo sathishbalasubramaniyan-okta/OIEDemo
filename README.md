@@ -10,7 +10,7 @@ This repository contains a sample web application built using the Okta Identity 
 * MFA Challenge & Verification (SMS)
 * Logout
 
-The sample illustrates the above functionality using both the Okta Sign in widget (https://github.com/okta/okta-signin-widget) and custom web pages that use the OIE Embedded Java SDK (https://github.com/okta/okta-idx-java)
+The sample illustrates the above functionality using both a branded Okta Sign in widget (https://github.com/okta/okta-signin-widget) and custom web pages that use the OIE Embedded Java SDK (https://github.com/okta/okta-idx-java)
 
 You can use this application to demonstrate these flows to a prospect or a customer that has a business partner apps use case, which requires embedded login & registration flows using either the Okta sign-in widget or custom built pages
 
